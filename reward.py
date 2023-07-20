@@ -7,6 +7,7 @@ def reward_function(params):
     track_width = params['track_width']
     distance_from_center = params['distance_from_center']
     all_wheels = params['all_wheels_on_track']
+    speed = params['speed']
     
     # Calculate 3 markers that are at varying distances away from the center line
     marker_1 = 0.1 * track_width
@@ -23,7 +24,18 @@ def reward_function(params):
     else:
         reward = 1e-3  # likely crashed/ close to off track
     
+    ## works at times... goes off in corner often coz its too fast n cant make it. 
+    # if we slow it for corner might be under 10 sec 
     if all_wheels:
-        reward = reward *2        # double the reward for being on track 
+        if speed >= 3:
+            reward = reward + 1
+        elif speed > 2 and speed < 3:
+            reward = reward + 0.5
+        elif speed > 1 and speed < 2:
+            reward = reward + 0.5
+        else:
+            reward = reward + 0.1
+    else:
+        reward = reward - 1
     
     return float(reward)
