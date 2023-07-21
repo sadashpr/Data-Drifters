@@ -8,6 +8,7 @@ def reward_function(params):
     distance_from_center = params['distance_from_center']
     all_wheels = params['all_wheels_on_track']
     speed = params['speed']
+    is_offtrack = params['is_offtrack']
     
     # Calculate 3 markers that are at varying distances away from the center line
     marker_1 = 0.1 * track_width
@@ -36,6 +37,11 @@ def reward_function(params):
         else:
             reward = reward + 0.1
     else:
-        reward = reward - 1
+        reward = reward - 1  # slighlt negate , but not a lot 
     
+    if is_offtrack:
+        reward = 1e-3  # penalize heavily for offtrack 
+    else:
+        reward = reward + 2  # we like being on track the most.
+        
     return float(reward)
