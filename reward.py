@@ -43,5 +43,5 @@ def reward_function(params):
         reward = 1e-3  # penalize heavily for offtrack 
     else:
         reward = reward + 2  # we like being on track the most.
-        
+
     return float(reward)
