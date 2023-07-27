@@ -78,7 +78,7 @@ def reward_function(params):
        
     # set params for next run 
     PARAMS.prev_all_wheels = all_wheels
-    PARAMS.prev_prev_distance_from_center = distance_from_center
+    PARAMS.prev_distance_from_center = distance_from_center
     PARAMS.prev_steps = steps
 
     # add progress to make car go further in track only in positive cases
