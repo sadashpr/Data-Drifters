@@ -8,6 +8,7 @@ def reward_function(params):
     distance_from_center = params['distance_from_center']
     all_wheels = params['all_wheels_on_track']
     speed = params['speed']
+    progress = params['progress']
     is_offtrack = params['is_offtrack']
     
     # Calculate 3 markers that are at varying distances away from the center line
@@ -24,14 +25,13 @@ def reward_function(params):
         reward = 0.1
     else:
         reward = 1e-3  # likely crashed/ close to off track
-    
-    ## works at times... goes off in corner often coz its too fast n cant make it. 
-    # if we slow it for corner might be under 10 sec 
+   
+    # doubleed the speed rewards. i think car can go faster, but lets see if it can make the corners 
     if all_wheels:
         if speed >= 3:
-            reward = reward + 1
+            reward = reward + 2
         elif speed > 2 and speed < 3:
-            reward = reward + 0.5
+            reward = reward + 1
         elif speed > 1 and speed < 2:
             reward = reward + 0.5
         else:
@@ -44,4 +44,8 @@ def reward_function(params):
     else:
         reward = reward + 2  # we like being on track the most.
 
-    return float(reward)
+    # add progress to make car go further in track only in positive cases
+    if reward > 0:
+        return float(reward+progress)
+    else:
+        return float(reward)
